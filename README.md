@@ -57,4 +57,9 @@ Everything.
     * Lua
     * Scheme
     * Tcl
+5. Help/debugging system
+    * Log keystroke passage: toggled to protect privacy, not remembered
+    * Show editor state
+    * Show registered mappings
+        * Registered list is not required but strongly reccommended
 
