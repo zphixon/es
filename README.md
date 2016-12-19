@@ -54,7 +54,7 @@ Everything.
     * Close editor
     * Change global/macro/micro modes
 4. Scripting - where this all is implemented
-    * Lua
+    * Lua - Most likely
     * Scheme
     * Tcl
 5. Help/debugging system
