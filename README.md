@@ -18,14 +18,14 @@ Everything.
             * Macro mode
             * Buffers
                 * Micro mode
-                * Cursor(s?)
                 * File
                     * Real file or in memory
                     * Saved?
             * Position
         * Keystroke buffer
         * Options - maybe not needed due to modes?
-        * Status line for mode types
+        * Status line for mode types?
+        * Cursor
     * Some sort of global config file that load modes and stuff
 2. Modal as in emacs *and* vim
     * Global/macro/micro modes
