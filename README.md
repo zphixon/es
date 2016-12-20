@@ -89,7 +89,7 @@ require("modes/vim-lite")
 -- in vim-lite
 
 -- keep track of whether we're in insert mode
-local insert = false
+es.currentWindow.insert = false
 
 -- register a global mode
 es.registerGlobal("vim-lite")
@@ -100,15 +100,15 @@ es.registerGlobal("vim-lite")
 -- the callback for the key event
 -- an optional docstring
 es.map("vim-lite", "esc", function()
-    if insert then
+    if es.currentWindow.insert then
         insert = false
         es.setStatusline("NORMAL")
     end
 end, "Leave insert mode")
 
 es.map("vim-lite", "i", function()
-    if not insert then
-        insert = true
+    if not es.currentWindow.insert then
+        es.currentWindow.insert = true
         es.statusline("INSERT")
     else
         -- send the keystroke down the line
@@ -117,7 +117,7 @@ es.map("vim-lite", "i", function()
 end)
 
 es.map("vim-lite", "h", function()
-    if not insert then
+    if not es.currentWindow.insert then
         es.cursor.left(1)
     else
         es.send()
@@ -125,7 +125,7 @@ es.map("vim-lite", "h", function()
 end, "Move left")
 
 es.map("vim-lite", "j", function()
-    if not insert then
+    if not es.currentWindow.insert then
         es.cursor.down(1)
     else
         es.send()
@@ -133,7 +133,7 @@ es.map("vim-lite", "j", function()
 end, "Move down")
 
 es.map("vim-lite", "k", function()
-    if not insert then
+    if not es.currentWindow.insert then
         es.cursor.up(1)
     else
         es.send()
@@ -141,7 +141,7 @@ es.map("vim-lite", "k", function()
 end, "Move up")
 
 es.map("vim-lite", "l", function()
-    if not insert then
+    if not es.currentWindow.insert then
         es.cursor.right(1)
     else
         es.send()
