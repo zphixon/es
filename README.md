@@ -147,5 +147,11 @@ es.map("vim-lite", "l", function()
         es.send()
     end
 end, "Move right")
+
+es.map("vim-lite", es.unmappedKeys, function()
+    if es.currentWidnow.insert then
+        es.send()
+    end
+end)
 ```
 
