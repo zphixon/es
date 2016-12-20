@@ -70,12 +70,12 @@ Everything.
 ## Example global mode: Vim-lite
 
 Keymaps:
-    * `h`: cursor left
-    * `j`: cursor down
-    * `k`: cursor up
-    * `l`: cursor right
-    * `i`: enter insert
-    * `Esc`: leave insert
+* `h`: cursor left
+* `j`: cursor down
+* `k`: cursor up
+* `l`: cursor right
+* `i`: enter insert
+* `Esc`: leave insert
 
 How this might translate to Lua API
 
