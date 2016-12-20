@@ -58,6 +58,8 @@ Everything.
     * Close editor
     * Change global/macro/micro modes
     * Change file/buffer/window metadata used for modes
+    * Commands for interoperability between modes
+        * Some sort of binding to enter a command
 4. Scripting - where this all is implemented
     * Modes are sent keystrokes/events
 5. Help/debugging system
@@ -97,12 +99,16 @@ es.registerGlobal("vim-lite")
 -- the callback for the key event
 -- an optional docstring
 es.map("vim-lite", "esc", function()
-    if insert then insert = false end
+    if insert then
+        insert = false
+        es.setStatusline("NORMAL")
+    end
 end, "Leave insert mode")
 
 es.map("vim-lite", "i", function()
     if not insert then
         insert = true
+        es.statusline("INSERT")
     else
         -- send the keystroke down the line
         es.send()
