@@ -148,6 +148,7 @@ es.map("vim-lite", "l", function()
     end
 end, "Move right")
 
+-- send all unmapped keys down to the next layer - may be implicit later on?
 es.map("vim-lite", es.unmappedKeys, function()
     if es.currentWidnow.insert then
         es.send()
