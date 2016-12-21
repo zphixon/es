@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "es.h"
+#include "es_buffer.h"
 #include "es_window.h"
 
 void es_buffer_setup(es_editor *es) {
@@ -12,18 +13,56 @@ void es_buffer_setup(es_editor *es) {
     es->windows[es->window_current].buffer_count = 1;
     es->buffer_current = 0;
     es->windows[es->window_current].buffers[es->buffer_current].saved = false;
+    es->windows[es->window_current].buffers[es->buffer_current].real = false;
     es->windows[es->window_current].buffers[es->buffer_current].id = 0;
-
-    // temporary
-    //es->windows[es->window_current].buffers[es->buffer_current].content = malloc(sizeof(char) * 30);
-    //es->windows[es->window_current].buffers[es->buffer_current].filename = malloc(sizeof(char) * 300);
-    //strcpy(es->windows[es->window_current].buffers[es->buffer_current].content, "testarino\nthis is a test");
-    //strcpy(es->windows[es->window_current].buffers[es->buffer_current].filename, "filename yo");
+    es->windows[es->window_current].buffers[es->buffer_current].filename = malloc(sizeof(char) * 1);
+    es->windows[es->window_current].buffers[es->buffer_current].content = malloc(sizeof(char) * 1);
 }
 
-void es_buffer_filename_set(es_editor *es, char *new) {
-    free(es->windows[es->window_current].buffers[es->buffer_current].filename);
-    es->windows[es->window_current].buffers[es->buffer_current].filename = new;
+void es_buffer_filename_set(es_editor *es, char *filename) {
+    free(es_buffer_current(es).filename);
+    es->windows[es->window_current].buffers[es->buffer_current].filename = filename;
+}
+
+void es_buffer_content_set(es_editor *es, char *content) {
+    free(es_buffer_current(es).content);
+    es->windows[es->window_current].buffers[es->buffer_current].content = content;
+}
+
+void es_buffer_set_real(es_editor *es, bool real) {
+    es->windows[es->window_current].buffers[es->buffer_current].real = real;
+}
+
+void es_buffer_save_file(es_editor *es) {
+    FILE *fp;
+    fp = fopen(es_buffer_current(es).filename, "w");
+    fwrite(es_buffer_current(es).content, sizeof(char), strlen(es_buffer_current(es).content), fp);
+    fclose(fp);
+}
+
+void es_buffer_open_file(es_editor *es) {
+    FILE *fp;
+    long lSize;
+    char *buffer;
+    fp = fopen(es_buffer_current(es).filename, "r");
+    if (!fp)
+        return;
+    fseek(fp, 0L, SEEK_END);
+    lSize = ftell(fp);
+    rewind(fp);
+    buffer = calloc(1, lSize + 1);
+    if (!buffer) {
+        fclose(fp);
+        return;
+    }
+    if (1 != fread(buffer, lSize, 1, fp)) {
+        fclose(fp);
+        return;
+    }
+    fclose(fp);
+
+    es_buffer_content_set(es, buffer);
+    es_buffer_set_real(es, true);
 }
 
 es_buffer es_buffer_current(es_editor *es) {

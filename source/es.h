@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #ifndef ES_HEADER
 #define ES_HEADER
@@ -16,6 +17,7 @@ typedef struct {
     char *content;
     uint64_t length;
     bool saved;
+    bool real;
     uint64_t id;
 } es_buffer;
 
