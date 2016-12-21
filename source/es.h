@@ -1,22 +1,46 @@
 
 #include <stdint.h>
+#include <stdbool.h>
 
+#ifndef ES_HEADER
+#define ES_HEADER
 typedef struct {
-    // 18446744073709551615 probably isn't enough for some people
     uint64_t x;
     uint64_t y;
+    uint64_t pos;
 } es_cursor;
 
 typedef struct {
-    char **content;
-    uint64_t lines;
+    char *filename;
+    char *content;
+    uint64_t length;
+    bool saved;
+    uint64_t id;
+    // micro mode
 } es_buffer;
 
 typedef struct {
-    es_buffer buffer;
-    es_cursor cursor;
-} es_editor;
+    es_buffer *buffers;
+    uint64_t bufnum;
+    uint64_t id;
+    // macro mode
+    // position
+} es_window;
 
-void es_setup(es_editor *es);
+struct s_es_editor {
+    es_cursor cursor;
+    uint64_t winnum;
+    es_window *windows;
+    // global mode
+    // keystroke buffer?
+    // options?
+    // status line?
+};
+typedef struct s_es_editor es_editor;
+
+#else
+#endif
+
+void es_editor_setup(es_editor *es);
 void es_editor_free(es_editor *es);
 
