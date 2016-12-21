@@ -2,3 +2,4 @@ build/
 .sconsign.dblite
 *.o
 *.exe
+*.pyc
