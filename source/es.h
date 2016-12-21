@@ -1,6 +1,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifndef ES_HEADER
 #define ES_HEADER
@@ -21,7 +22,7 @@ typedef struct {
 
 typedef struct {
     es_buffer *buffers;
-    uint64_t bufnum;
+    uint64_t buffer_count;
     uint64_t id;
     // macro mode
     // position
@@ -29,7 +30,9 @@ typedef struct {
 
 typedef struct {
     es_cursor cursor;
-    uint64_t winnum;
+    uint64_t window_count;
+    size_t window_current;
+    size_t buffer_current;
     es_window *windows;
     // global mode
     // keystroke buffer?

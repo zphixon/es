@@ -4,7 +4,9 @@
 #include <stdio.h>
 
 void es_window_setup(es_editor *es) {
-    es->windows = (es_window*) malloc(sizeof(es_window) * 2);
-    es->windows[0].id = 1;
-    es->windows[1].id = 0;
+    es->windows = (es_window*) malloc(sizeof(es_window) * 1);
+    es->window_current = 0;
+    es->window_count = 1;
+    es->windows[es->window_current].buffer_count = 0;
+    es->windows[es->window_current].id = 0;
 }

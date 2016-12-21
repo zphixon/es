@@ -11,8 +11,8 @@ void es_editor_setup(es_editor *es) {
 }
 
 void es_editor_free(es_editor *es) {
-    for (int i = 0; es->windows[i].id != 0; i++) {
-        for (int j = 0; es->windows[i].buffers[j].id != 0; j++) {
+    for (uint64_t i = 0; i < es->window_count; i++) {
+        for (uint64_t j = 0; j < es->windows[i].buffer_count; j++) {
             free(es->windows[i].buffers[j].filename);
             free(es->windows[i].buffers[j].content);
         }

@@ -5,19 +5,15 @@
 #include "es.h"
 
 void es_buffer_setup(es_editor *es) {
-    es->windows[0].buffers = (es_buffer*) malloc(sizeof(es_buffer) * 2);
+    es->windows[es->window_current].buffers = malloc(sizeof(es_buffer) * 1);
 
-    es->windows[0].buffers[0].id = 1;
-    // temporary
-    es->windows[0].buffers[0].content = (char*) malloc(sizeof(char) * 30);
-    es->windows[0].buffers[0].filename = (char*) malloc(sizeof(char) * 300);
+    es->windows[es->window_current].buffer_count = 1;
+    es->buffer_current = 0;
 
     // temporary
-    strcpy(es->windows[0].buffers[0].content, "testarino\nthis is a test");
-    strcpy(es->windows[0].buffers[0].filename, "filename yo");
-
-    // last buffer in struct, used for freeing stuff
-    // doesn't have any malloc'd elements
-    es->windows[0].buffers[1].id = 0;
+    es->windows[es->window_current].buffers[es->buffer_current].content = malloc(sizeof(char) * 30);
+    es->windows[es->window_current].buffers[es->buffer_current].filename = malloc(sizeof(char) * 300);
+    strcpy(es->windows[es->window_current].buffers[es->buffer_current].content, "testarino\nthis is a test");
+    strcpy(es->windows[es->window_current].buffers[es->buffer_current].filename, "filename yo");
 }
 
