@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+
+env = Environment()
+env.Append(CCFLAGS = ['-g'])
+env.Replace(CC = "clang")
+files = Glob("source/*.c")
+libs = ["lua", "ncurses"]
+env.Program("es", files, LIBS = libs)
+
