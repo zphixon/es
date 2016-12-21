@@ -10,3 +10,8 @@ void es_window_setup(es_editor *es) {
     es->windows[es->window_current].buffer_count = 0;
     es->windows[es->window_current].id = 0;
 }
+
+es_window es_window_current(es_editor *es) {
+    return es->windows[es->window_current];
+}
+

@@ -17,14 +17,12 @@ typedef struct {
     uint64_t length;
     bool saved;
     uint64_t id;
-    // micro mode
 } es_buffer;
 
 typedef struct {
     es_buffer *buffers;
     uint64_t buffer_count;
     uint64_t id;
-    // macro mode
     // position
 } es_window;
 
@@ -35,6 +33,8 @@ typedef struct {
     size_t buffer_current;
     es_window *windows;
     // global mode
+    // macro mode
+    // micro mode
     // keystroke buffer?
     // options?
     // status line?
