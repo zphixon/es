@@ -13,9 +13,19 @@
 int main(int argc, char **argv) {
     // init es stuff
     es_editor *es = malloc(sizeof(es_editor));
+    if (es == NULL) {
+        perror("couldn't malloc es_editor");
+        exit(1);
+    }
+
     es_editor_setup(es);
 
     char *filename = malloc(sizeof(char) * 9);
+    if (filename == NULL) {
+        perror("couldn't malloc filename");
+        exit(1);
+    }
+
     if (argv[1] != NULL) {
         strcpy(filename, argv[1]);
         es_buffer_filename_set(es, filename);
@@ -26,10 +36,17 @@ int main(int argc, char **argv) {
     }
 
     if (es_buffer_current(es).real) {
-        if (es_buffer_open_file(es))
-            perror("oh noes can't open file");
+        if (es_buffer_open_file(es)) {
+            perror("couldn't open file");
+            exit(1);
+        }
     } else {
         char *new = malloc(sizeof(char) * 1);
+        if (new == NULL) {
+            perror("couldn't malloc one byte? you're screwed, mate");
+            exit(420);
+        }
+
         strcpy(new, "");
         es_buffer_content_set(es, new);
     }

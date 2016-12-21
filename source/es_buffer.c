@@ -9,6 +9,9 @@
 
 void es_buffer_setup(es_editor *es) {
     es->windows[es->window_current].buffers = malloc(sizeof(es_buffer) * 1);
+    if (es->windows[es->window_current].buffers == NULL) {
+        perror("couldn't malloc buffers array");
+    }
 
     es->windows[es->window_current].buffer_count = 1;
     es->buffer_current = 0;
@@ -36,6 +39,10 @@ void es_buffer_set_real(es_editor *es, bool real) {
 void es_buffer_save_file(es_editor *es) {
     FILE *fp;
     fp = fopen(es_buffer_current(es).filename, "w");
+    if (fp == NULL) {
+        perror("couldn't open file");
+        exit(1);
+    }
     fwrite(es_buffer_current(es).content, sizeof(char), strlen(es_buffer_current(es).content), fp);
     fclose(fp);
 }
@@ -44,21 +51,27 @@ int es_buffer_open_file(es_editor *es) {
     FILE *fp;
     long lSize;
     char *buffer;
+
     fp = fopen(es_buffer_current(es).filename, "r");
-    if (!fp)
+    if (fp == NULL)
         return 1;
+
     fseek(fp, 0L, SEEK_END);
     lSize = ftell(fp);
     rewind(fp);
+
     buffer = calloc(1, lSize + 1);
-    if (!buffer) {
+    if (buffer == NULL) {
         fclose(fp);
         return 1;
     }
-    if (1 != fread(buffer, lSize, 1, fp)) {
+
+    if (fread(buffer, lSize, 1, fp) != 1) {
         fclose(fp);
+        free(buffer);
         return 1;
     }
+
     fclose(fp);
 
     es_buffer_content_set(es, buffer);
