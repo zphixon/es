@@ -27,7 +27,7 @@ typedef struct {
     // position
 } es_window;
 
-struct s_es_editor {
+typedef struct {
     es_cursor cursor;
     uint64_t winnum;
     es_window *windows;
@@ -35,8 +35,7 @@ struct s_es_editor {
     // keystroke buffer?
     // options?
     // status line?
-};
-typedef struct s_es_editor es_editor;
+} es_editor;
 
 #else
 #endif
