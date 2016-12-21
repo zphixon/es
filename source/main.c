@@ -26,7 +26,8 @@ int main(int argc, char **argv) {
     }
 
     if (es_buffer_current(es).real) {
-        es_buffer_open_file(es);
+        if (es_buffer_open_file(es))
+            perror("oh noes can't open file");
     } else {
         char *new = malloc(sizeof(char) * 1);
         strcpy(new, "");

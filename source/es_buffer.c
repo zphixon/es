@@ -40,29 +40,30 @@ void es_buffer_save_file(es_editor *es) {
     fclose(fp);
 }
 
-void es_buffer_open_file(es_editor *es) {
+int es_buffer_open_file(es_editor *es) {
     FILE *fp;
     long lSize;
     char *buffer;
     fp = fopen(es_buffer_current(es).filename, "r");
     if (!fp)
-        return;
+        return 1;
     fseek(fp, 0L, SEEK_END);
     lSize = ftell(fp);
     rewind(fp);
     buffer = calloc(1, lSize + 1);
     if (!buffer) {
         fclose(fp);
-        return;
+        return 1;
     }
     if (1 != fread(buffer, lSize, 1, fp)) {
         fclose(fp);
-        return;
+        return 1;
     }
     fclose(fp);
 
     es_buffer_content_set(es, buffer);
     es_buffer_set_real(es, true);
+    return 0;
 }
 
 es_buffer es_buffer_current(es_editor *es) {
