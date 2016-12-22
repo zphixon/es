@@ -1,12 +1,9 @@
-machine:
-    pre:
+dependencies:
+    override:
         - mkdir scons
         - cd scons
         - wget http://prdownloads.sourceforge.net/scons/scons-local-2.5.1.tar.gz
         - tar xvf scons-local-2.5.1.tar.gz
         - cd ..
-
-dependencies:
-    override:
         - ls
         - scons/scons.py
