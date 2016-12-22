@@ -5,3 +5,11 @@ dependencies:
         - tar xvf scons-local-2.5.1.tar.gz -C scons
         - sudo apt-get install clang -y
         - scons/scons.py
+
+general:
+    artifacts:
+        - "build"
+
+test:
+    post:
+        - ./prettify_badge.sh
