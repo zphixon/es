@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 #include <ncurses.h>
-#include "lua.h"
-#include "lauxlib.h"
+//#include "lua.h"
+//#include "lauxlib.h"
 
 #include "es.h"
 #include "es_buffer.h"
@@ -42,7 +42,9 @@ int main(int argc, char **argv) {
         }
     }
 
-    es_buffer_set_line(es, "testaroni", 0);
+    char *nl = calloc(1, 11);
+    strcpy(nl, "testaroni\n");
+    es_buffer_append_line(es, nl);
 
     es_buffer_save_file(es);
 
