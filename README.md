@@ -1,4 +1,4 @@
-# es editor
+# es editor [![Freaking circle](https://circleci.com/gh/cheezgi/es.svg?style=svg)](https://circleci.com/gh/cheezgi/es)
 
 es stands for
 * **e**asily **s**criptable
