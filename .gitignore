@@ -4,3 +4,4 @@ build/
 *.exe
 *.pyc
 scons/
+otest.lua

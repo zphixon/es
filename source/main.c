@@ -40,23 +40,13 @@ int main(int argc, char **argv) {
             perror("couldn't open file");
             exit(1);
         }
-    } else {
-        char *new = malloc(sizeof(char) * 1);
-        if (new == NULL) {
-            perror("couldn't malloc one byte? you're screwed, mate");
-            exit(420);
-        }
-
-        strcpy(new, "");
-        es_buffer_content_set(es, new);
     }
 
-    printf("%s", es_buffer_current(es).content);
+    es_buffer_set_line(es, "testaroni", 0);
 
-    char *test = malloc(sizeof(char) * 40);
-    strcpy(test, "this is a testarino");
-    es_buffer_content_set(es, test);
     es_buffer_save_file(es);
+
+    // do stuff with es
 
     // clean up es stuff
     es_editor_free(es);

@@ -14,7 +14,8 @@ typedef struct {
 
 typedef struct {
     char *filename;
-    char *content;
+    char **lines;
+    uint64_t lines_last;
     uint64_t length;
     bool saved;
     bool real;

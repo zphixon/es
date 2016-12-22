@@ -19,7 +19,8 @@ void es_buffer_setup(es_editor *es) {
     es->windows[es->window_current].buffers[es->buffer_current].real = false;
     es->windows[es->window_current].buffers[es->buffer_current].id = 0;
     es->windows[es->window_current].buffers[es->buffer_current].filename = malloc(sizeof(char) * 1);
-    es->windows[es->window_current].buffers[es->buffer_current].content = malloc(sizeof(char) * 1);
+    es->windows[es->window_current].buffers[es->buffer_current].lines = malloc(sizeof(char*) * 1);
+    es->windows[es->window_current].buffers[es->buffer_current].lines_last = 0;
 }
 
 void es_buffer_filename_set(es_editor *es, char *filename) {
@@ -27,9 +28,9 @@ void es_buffer_filename_set(es_editor *es, char *filename) {
     es->windows[es->window_current].buffers[es->buffer_current].filename = filename;
 }
 
-void es_buffer_content_set(es_editor *es, char *content) {
-    free(es_buffer_current(es).content);
-    es->windows[es->window_current].buffers[es->buffer_current].content = content;
+void es_buffer_lines_set(es_editor *es, char **lines) {
+    free(es_buffer_current(es).lines);
+    es->windows[es->window_current].buffers[es->buffer_current].lines = lines;
 }
 
 void es_buffer_set_real(es_editor *es, bool real) {
@@ -43,7 +44,14 @@ void es_buffer_save_file(es_editor *es) {
         perror("couldn't open file");
         exit(1);
     }
-    fwrite(es_buffer_current(es).content, sizeof(char), strlen(es_buffer_current(es).content), fp);
+    //fwrite(es_buffer_current(es).content, sizeof(char), strlen(es_buffer_current(es).content), fp);
+
+    uint64_t i = 0;
+    while (i < es_buffer_current(es).lines_last) {
+        fwrite(es_buffer_current(es).lines[i], sizeof(char), strlen(es_buffer_current(es).lines[i]), fp);
+        i++;
+    }
+
     fclose(fp);
 }
 
@@ -74,12 +82,47 @@ int es_buffer_open_file(es_editor *es) {
 
     fclose(fp);
 
-    es_buffer_content_set(es, buffer);
-    es_buffer_set_real(es, true);
+    char *line = strtok(buffer, "\n");
+    strcpy(BUFFER_CURRENT.lines[0], strcat(line, "\n"));
+    while (line) {
+        es_buffer_append_line(es, strcat(line, "\n"));
+        line = strtok(NULL, "\n");
+    }
+
+    //es_buffer_content_set(es, buffer);
+    //es_buffer_set_real(es, true);
+
     return 0;
 }
 
+void es_buffer_append_line(es_editor *es, char *line) {
+    //es_buffer_current_p(es)->lines = realloc(es_buffer_current_p(es)->lines, es_buffer_current_p(es)->lines_last + 1);
+    //es_buffer_current_p(es)->lines_last++;
+    //es_buffer_current_p(es)->lines[es_buffer_current_p(es)->lines_last] = line;
+    puts("kaput");
+    printf("%s\n", BUFFER_CURRENT.lines[0]);
+    es->windows[es->window_current].buffers[es->buffer_current].lines
+        = realloc(es->windows[es->window_current].buffers[es->buffer_current].lines
+                , es->windows[es->window_current].buffers[es->buffer_current].lines_last + 1);
+    es->windows[es->window_current].buffers[es->buffer_current].lines_last++;
+    uint64_t l = es->windows[es->window_current].buffers[es->buffer_current].lines_last;
+    es->windows[es->window_current].buffers[es->buffer_current].lines[l] = line;
+}
+
+void es_buffer_set_line(es_editor *es, char *line, uint64_t which) {
+    //strcpy(es_buffer_current_p(es)->lines[which], line);
+    strcpy(es->windows[es->window_current].buffers[es->buffer_current].lines[which], line);
+}
+
+//void es_buffer_append_char(es_editor es, char ch) {
+//    es_buffer_current_p(es).lines[]
+//}
+
 es_buffer es_buffer_current(es_editor *es) {
     return es_window_current(es).buffers[es->buffer_current];
+}
+
+es_buffer *es_buffer_current_p(es_editor *es) {
+    return &es->windows[es->window_current].buffers[es->buffer_current];
 }
 
