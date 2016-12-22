@@ -3,5 +3,5 @@ dependencies:
         - mkdir scons
         - wget http://prdownloads.sourceforge.net/scons/scons-local-2.5.1.tar.gz
         - tar xvf scons-local-2.5.1.tar.gz -C scons
-        - ls
+        - sudo apt-get install clang -y
         - scons/scons.py
