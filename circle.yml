@@ -8,4 +8,5 @@ machine:
 
 dependencies:
     override:
+        - ls
         - scons/scons.py
