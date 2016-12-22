@@ -3,8 +3,6 @@
 #include <stdbool.h>
 #include "es.h"
 
-//#define BUFFER_CURRENT es->windows[es->window_current].buffers[es->buffer_current]
-
 void es_buffer_setup(es_editor *es);
 
 void es_buffer_filename_set(es_editor *es, char *filename);

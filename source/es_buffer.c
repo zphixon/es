@@ -45,7 +45,6 @@ void es_buffer_save_file(es_editor *es) {
         perror("couldn't open file");
         exit(1);
     }
-    //fwrite(es_buffer_current(es).content, sizeof(char), strlen(es_buffer_current(es).content), fp);
 
     uint64_t i = 0;
     while (i <= es_buffer_current(es).lines_last) {
@@ -98,29 +97,11 @@ int es_buffer_open_file(es_editor *es) {
         nl[strlen(lines[i]) + 1] = '\0';
         es_buffer_append_line(es, nl);
     }
-    //free(lines);
-
-    //es->windows[es->window_current].buffers[es->buffer_current].lines = lines;
-
-    //size_t i = 0;
-    //for (; lines[i] != NULL; i++)
-    //    ;
-    //es->windows[es->window_current].buffers[es->buffer_current].lines_last = i - 1;
-
-    //es_buffer_content_set(es, buffer);
-    //es_buffer_set_real(es, true);
-    //free(lines);
 
     return 0;
 }
 
 void es_buffer_append_line(es_editor *es, char *line) {
-    //es_buffer_current_p(es)->lines = realloc(es_buffer_current_p(es)->lines, es_buffer_current_p(es)->lines_last + 1);
-    //es_buffer_current_p(es)->lines_last++;
-    //es_buffer_current_p(es)->lines[es_buffer_current_p(es)->lines_last] = line;
-    //puts("kaput");
-    //printf("%s\n", es->windows[es->window_current].buffers[es->buffer_current].lines[0]);
-    //printf("adding after %llu %s\n", es_buffer_current(es).lines_last, es_buffer_current(es).lines[es_buffer_current(es).lines_last]);
     es->windows[es->window_current].buffers[es->buffer_current].lines
         = realloc(es->windows[es->window_current].buffers[es->buffer_current].lines,
                   sizeof(char*) * (es->windows[es->window_current].buffers[es->buffer_current].lines_last + 1) + 1);
@@ -130,14 +111,8 @@ void es_buffer_append_line(es_editor *es, char *line) {
 }
 
 void es_buffer_set_line(es_editor *es, char *line, uint64_t which) {
-    //strcpy(es_buffer_current_p(es)->lines[which], line);
-    //strcpy(es->windows[es->window_current].buffers[es->buffer_current].lines[which], line);
     es->windows[es->window_current].buffers[es->buffer_current].lines[which] = line;
 }
-
-//void es_buffer_append_char(es_editor es, char ch) {
-//    es_buffer_current_p(es).lines[]
-//}
 
 es_buffer es_buffer_current(es_editor *es) {
     return es_window_current(es).buffers[es->buffer_current];
@@ -147,7 +122,8 @@ es_buffer *es_buffer_current_p(es_editor *es) {
     return &es->windows[es->window_current].buffers[es->buffer_current];
 }
 
-// thanks SO
+// ~~thanks SO~~
+// fuck you SO, you segfaulted valgrind somehow
 char **es_buffer_tokenize(const char *str) {
     int count = 0;
     int capacity = 10;
