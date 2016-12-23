@@ -14,5 +14,4 @@ void es_buffer_set_line(es_editor *es, char *line, uint64_t which);
 char **es_buffer_tokenize(const char *str);
 
 es_buffer es_buffer_current(es_editor *es);
-//es_buffer *es_buffer_current_p(es_editor *es);
 

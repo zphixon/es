@@ -21,7 +21,6 @@ void es_buffer_setup(es_editor *es) {
     es->buffers[es->buffer_current].filename = malloc(sizeof(char) * 1);
     es->buffers[es->buffer_current].lines = malloc(sizeof(char*) * 1);
     es->buffers[es->buffer_current].lines_last = 0;
-    //es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = calloc(40, 1);
 }
 
 void es_buffer_filename_set(es_editor *es, char *filename) {
