@@ -84,7 +84,7 @@ int es_buffer_open_file(es_editor *es) {
 
     char **lines = es_buffer_tokenize(buffer);
     if (*lines != NULL) {
-        char *nl = calloc(1, strlen(lines[0]) + 1);
+        char *nl = calloc(strlen(lines[0]) + 2, 1);
         strncpy(nl, lines[0], strlen(lines[0]));
         nl[strlen(lines[0])] = '\n';
         nl[strlen(lines[0]) + 1] = '\0';
@@ -92,7 +92,7 @@ int es_buffer_open_file(es_editor *es) {
         free(*lines);
     }
     for (size_t i = 1; lines[i] != NULL; i++) {
-        char *nl = calloc(1, strlen(lines[i]) + 1);
+        char *nl = calloc(strlen(lines[i]) + 2, 1);
         strncpy(nl, lines[i], strlen(lines[i]));
         nl[strlen(lines[i])] = '\n';
         nl[strlen(lines[i]) + 1] = '\0';
@@ -107,7 +107,7 @@ int es_buffer_open_file(es_editor *es) {
 void es_buffer_append_line(es_editor *es, char *line) {
     es->buffers[es->buffer_current].lines
         = realloc(es->buffers[es->buffer_current].lines,
-                  sizeof(char*) * (es->buffers[es->buffer_current].lines_last + 1) + 1);
+                  sizeof(char*) * (es->buffers[es->buffer_current].lines_last + 2));
     es->buffers[es->buffer_current].lines_last++;
     uint64_t l = es->buffers[es->buffer_current].lines_last;
     es->buffers[es->buffer_current].lines[l] = line;
