@@ -100,6 +100,7 @@ int es_buffer_open_file(es_editor *es) {
         free(lines[i]);
     }
     free(buffer);
+    free(lines);
 
     return 0;
 }
@@ -121,8 +122,7 @@ es_buffer es_buffer_current(es_editor *es) {
     return es->buffers[es->buffer_current];
 }
 
-// ~~thanks SO~~
-// fuck you SO, you segfaulted valgrind somehow
+// thanks SO
 char **es_buffer_tokenize(const char *str) {
     int count = 0;
     int capacity = 10;
