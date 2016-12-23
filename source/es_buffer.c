@@ -21,7 +21,7 @@ void es_buffer_setup(es_editor *es) {
     es->windows[es->window_current].buffers[es->buffer_current].filename = malloc(sizeof(char) * 1);
     es->windows[es->window_current].buffers[es->buffer_current].lines = malloc(sizeof(char*) * 1);
     es->windows[es->window_current].buffers[es->buffer_current].lines_last = 0;
-    es->windows[es->window_current].buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = calloc(1, 40);
+    es->windows[es->window_current].buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = calloc(40, 1);
 }
 
 void es_buffer_filename_set(es_editor *es, char *filename) {
@@ -89,6 +89,7 @@ int es_buffer_open_file(es_editor *es) {
         nl[strlen(lines[0])] = '\n';
         nl[strlen(lines[0]) + 1] = '\0';
         es_buffer_set_line(es, nl, 0);
+        free(*lines);
     }
     for (size_t i = 1; lines[i] != NULL; i++) {
         char *nl = calloc(1, strlen(lines[i]) + 1);
@@ -96,7 +97,9 @@ int es_buffer_open_file(es_editor *es) {
         nl[strlen(lines[i])] = '\n';
         nl[strlen(lines[i]) + 1] = '\0';
         es_buffer_append_line(es, nl);
+        free(lines[i]);
     }
+    free(buffer);
 
     return 0;
 }

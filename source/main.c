@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    char *nl = calloc(1, 11);
+    char *nl = calloc(11, 1);
     strcpy(nl, "testaroni\n");
     es_buffer_append_line(es, nl);
 
