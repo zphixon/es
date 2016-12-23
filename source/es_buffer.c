@@ -5,37 +5,37 @@
 #include <stdbool.h>
 #include "es.h"
 #include "es_buffer.h"
-#include "es_window.h"
 
 void es_buffer_setup(es_editor *es) {
-    es->windows[es->window_current].buffers = malloc(sizeof(es_buffer) * 1);
-    if (es->windows[es->window_current].buffers == NULL) {
+    es->buffers = malloc(sizeof(es_buffer) * 1);
+    if (es->buffers == NULL) {
         perror("couldn't malloc buffers array");
+        exit(1);
     }
 
-    es->windows[es->window_current].buffer_count = 1;
+    es->buffer_count = 1;
     es->buffer_current = 0;
-    es->windows[es->window_current].buffers[es->buffer_current].saved = false;
-    es->windows[es->window_current].buffers[es->buffer_current].real = false;
-    es->windows[es->window_current].buffers[es->buffer_current].id = 0;
-    es->windows[es->window_current].buffers[es->buffer_current].filename = malloc(sizeof(char) * 1);
-    es->windows[es->window_current].buffers[es->buffer_current].lines = malloc(sizeof(char*) * 1);
-    es->windows[es->window_current].buffers[es->buffer_current].lines_last = 0;
-    es->windows[es->window_current].buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = calloc(40, 1);
+    es->buffers[es->buffer_current].saved = false;
+    es->buffers[es->buffer_current].real = false;
+    es->buffers[es->buffer_current].id = 0;
+    es->buffers[es->buffer_current].filename = malloc(sizeof(char) * 1);
+    es->buffers[es->buffer_current].lines = malloc(sizeof(char*) * 1);
+    es->buffers[es->buffer_current].lines_last = 0;
+    es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = calloc(40, 1);
 }
 
 void es_buffer_filename_set(es_editor *es, char *filename) {
     free(es_buffer_current(es).filename);
-    es->windows[es->window_current].buffers[es->buffer_current].filename = filename;
+    es->buffers[es->buffer_current].filename = filename;
 }
 
 void es_buffer_lines_set(es_editor *es, char **lines) {
     free(es_buffer_current(es).lines);
-    es->windows[es->window_current].buffers[es->buffer_current].lines = lines;
+    es->buffers[es->buffer_current].lines = lines;
 }
 
 void es_buffer_set_real(es_editor *es, bool real) {
-    es->windows[es->window_current].buffers[es->buffer_current].real = real;
+    es->buffers[es->buffer_current].real = real;
 }
 
 void es_buffer_save_file(es_editor *es) {
@@ -105,24 +105,20 @@ int es_buffer_open_file(es_editor *es) {
 }
 
 void es_buffer_append_line(es_editor *es, char *line) {
-    es->windows[es->window_current].buffers[es->buffer_current].lines
-        = realloc(es->windows[es->window_current].buffers[es->buffer_current].lines,
-                  sizeof(char*) * (es->windows[es->window_current].buffers[es->buffer_current].lines_last + 1) + 1);
-    es->windows[es->window_current].buffers[es->buffer_current].lines_last++;
-    uint64_t l = es->windows[es->window_current].buffers[es->buffer_current].lines_last;
-    es->windows[es->window_current].buffers[es->buffer_current].lines[l] = line;
+    es->buffers[es->buffer_current].lines
+        = realloc(es->buffers[es->buffer_current].lines,
+                  sizeof(char*) * (es->buffers[es->buffer_current].lines_last + 1) + 1);
+    es->buffers[es->buffer_current].lines_last++;
+    uint64_t l = es->buffers[es->buffer_current].lines_last;
+    es->buffers[es->buffer_current].lines[l] = line;
 }
 
 void es_buffer_set_line(es_editor *es, char *line, uint64_t which) {
-    es->windows[es->window_current].buffers[es->buffer_current].lines[which] = line;
+    es->buffers[es->buffer_current].lines[which] = line;
 }
 
 es_buffer es_buffer_current(es_editor *es) {
-    return es_window_current(es).buffers[es->buffer_current];
-}
-
-es_buffer *es_buffer_current_p(es_editor *es) {
-    return &es->windows[es->window_current].buffers[es->buffer_current];
+    return es->buffers[es->buffer_current];
 }
 
 // ~~thanks SO~~
