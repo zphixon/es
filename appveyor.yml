@@ -7,7 +7,7 @@ install:
     - ps: mkdir clang
     - ps: cd clang
     - ps: Start-FileDownload http://releases.llvm.org/3.9.1/LLVM-3.9.1-win32.exe
-    - ps: LLVM-3.9.1-win32.exe /VERYSILENT /NORESTART /DIR="C:\Program Files (x86)\Clang" # probably doesn't work but we'll try anyway
+    - ps: .\LLVM-3.9.1-win32.exe /VERYSILENT /NORESTART /DIR="C:\Program Files (x86)\Clang" # probably doesn't work but we'll try anyway
     - ps: cd ..
 
 build_script:
