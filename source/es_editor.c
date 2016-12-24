@@ -1,7 +1,7 @@
 
 #include <stdlib.h>
-#include "es_buffer.h"
-#include "es_cursor.h"
+#include <stdint.h>
+#include "es.h"
 
 void es_editor_setup(es_editor *es) {
     es_buffer_setup(es);

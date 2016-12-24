@@ -4,7 +4,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "es.h"
-#include "es_buffer.h"
 
 void es_buffer_setup(es_editor *es) {
     es->buffers = malloc(sizeof(es_buffer) * 1);

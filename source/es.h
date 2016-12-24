@@ -39,6 +39,27 @@ typedef struct {
 #else
 #endif
 
+// es_editor
 void es_editor_setup(es_editor *es);
 void es_editor_free(es_editor *es);
 
+// es_buffer
+void es_buffer_setup(es_editor *es);
+
+void es_buffer_filename_set(es_editor *es, char *filename);
+void es_buffer_set_real(es_editor *es, bool real);
+void es_buffer_save_file(es_editor *es);
+int es_buffer_open_file(es_editor *es);
+void es_buffer_append_line(es_editor *es, char *line);
+void es_buffer_set_line(es_editor *es, char *line, uint64_t which);
+char **es_buffer_tokenize(const char *str);
+
+es_buffer es_buffer_current(es_editor *es);
+
+// es_cursor
+void es_cursor_setup(es_editor *es);
+
+void es_cursor_up(es_editor *es);
+void es_cursor_down(es_editor *es);
+void es_cursor_left(es_editor *es);
+void es_cursor_right(es_editor *es);

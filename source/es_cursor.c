@@ -1,6 +1,5 @@
 
 #include "es.h"
-#include "es_buffer.h"
 
 void es_cursor_setup(es_editor *es) {
     es->cursor.x = 1;

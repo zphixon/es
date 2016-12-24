@@ -8,7 +8,6 @@
 //#include "lauxlib.h"
 
 #include "es.h"
-#include "es_buffer.h"
 
 int main(int argc, char **argv) {
     // init es stuff
