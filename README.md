@@ -14,10 +14,10 @@ Everything.
     * ncurses/something?
     * es struct
         * Global mode
+        * Macro mode
+        * Micro mode
         * Windows
-            * Macro mode
             * Buffers
-                * Micro mode
                 * File
                     * Real file or in memory
                     * Saved?
