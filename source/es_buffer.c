@@ -95,9 +95,9 @@ int es_buffer_file_open(es_editor *es) {
             strncpy(nl, lines[i], strlen(lines[i]));
             nl[strlen(lines[i])] = '\n';
             nl[strlen(lines[i]) + 1] = '\0';
-            es_buffer_line_append(es, nl);
+            es_buffer_text_append(es, nl);
         } else {
-            es_buffer_line_append(es, strdup(lines[i]));
+            es_buffer_text_append(es, strdup(lines[i]));
         }
         free(lines[i]);
     }
@@ -107,7 +107,7 @@ int es_buffer_file_open(es_editor *es) {
     return 0;
 }
 
-void es_buffer_line_append(es_editor *es, char *line) {
+void es_buffer_text_append(es_editor *es, char *line) {
     es->buffers[es->buffer_current].lines
         = realloc(es->buffers[es->buffer_current].lines,
                   sizeof(char*) * (es->buffers[es->buffer_current].lines_last + 2));
@@ -125,7 +125,7 @@ void es_buffer_char_append(es_editor *es, char *c) {
     size_t lastci = strlen(es_buffer_current(es).lines[es_buffer_current(es).lines_last]);
     if (es_buffer_current(es).lines[es_buffer_current(es).lines_last][lastci] == '\n')
     {
-        es_buffer_line_append(es, c);
+        es_buffer_text_append(es, c);
         return;
     }
 
