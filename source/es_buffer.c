@@ -32,11 +32,11 @@ void es_buffer_lines_set(es_editor *es, char **lines) {
     es->buffers[es->buffer_current].lines = lines;
 }
 
-void es_buffer_set_real(es_editor *es, bool real) {
+void es_buffer_real_set(es_editor *es, bool real) {
     es->buffers[es->buffer_current].real = real;
 }
 
-void es_buffer_save_file(es_editor *es) {
+void es_buffer_file_save(es_editor *es) {
     FILE *fp;
     fp = fopen(es_buffer_current(es).filename, "w");
     if (fp == NULL) {
@@ -53,7 +53,7 @@ void es_buffer_save_file(es_editor *es) {
     fclose(fp);
 }
 
-int es_buffer_open_file(es_editor *es) {
+int es_buffer_file_open(es_editor *es) {
     FILE *fp;
     long lSize;
     char *buffer;
@@ -86,7 +86,7 @@ int es_buffer_open_file(es_editor *es) {
         strncpy(nl, lines[0], strlen(lines[0]));
         nl[strlen(lines[0])] = '\n';
         nl[strlen(lines[0]) + 1] = '\0';
-        es_buffer_set_line(es, nl, 0);
+        es_buffer_line_set(es, nl, 0);
         free(*lines);
     }
     for (size_t i = 1; lines[i] != NULL; i++) {
@@ -94,7 +94,7 @@ int es_buffer_open_file(es_editor *es) {
         strncpy(nl, lines[i], strlen(lines[i]));
         nl[strlen(lines[i])] = '\n';
         nl[strlen(lines[i]) + 1] = '\0';
-        es_buffer_append_line(es, nl);
+        es_buffer_line_append(es, nl);
         free(lines[i]);
     }
     free(buffer);
@@ -103,7 +103,7 @@ int es_buffer_open_file(es_editor *es) {
     return 0;
 }
 
-void es_buffer_append_line(es_editor *es, char *line) {
+void es_buffer_line_append(es_editor *es, char *line) {
     es->buffers[es->buffer_current].lines
         = realloc(es->buffers[es->buffer_current].lines,
                   sizeof(char*) * (es->buffers[es->buffer_current].lines_last + 2));
@@ -112,7 +112,7 @@ void es_buffer_append_line(es_editor *es, char *line) {
     es->buffers[es->buffer_current].lines[l] = line;
 }
 
-void es_buffer_set_line(es_editor *es, char *line, uint64_t which) {
+void es_buffer_line_set(es_editor *es, char *line, uint64_t which) {
     es->buffers[es->buffer_current].lines[which] = line;
 }
 

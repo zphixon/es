@@ -29,14 +29,14 @@ int main(int argc, char **argv) {
         filename = realloc(filename, sizeof(char) * (strlen(argv[1]) + 1));
         strcpy(filename, argv[1]);
         es_buffer_filename_set(es, filename);
-        es_buffer_set_real(es, true);
+        es_buffer_real_set(es, true);
     } else {
         strcpy(filename, "Untitled");
         es_buffer_filename_set(es, filename);
     }
 
     if (es_buffer_current(es).real) {
-        if (es_buffer_open_file(es)) {
+        if (es_buffer_file_open(es)) {
             printf("%s\n", es_buffer_current(es).filename);
             perror("couldn't open file");
             exit(1);
@@ -45,9 +45,9 @@ int main(int argc, char **argv) {
 
     char *nl = calloc(11, 1);
     strcpy(nl, "testaroni\n");
-    es_buffer_append_line(es, nl);
+    es_buffer_line_append(es, nl);
 
-    es_buffer_save_file(es);
+    es_buffer_file_save(es);
 
     // do stuff with es
 
