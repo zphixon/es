@@ -13,3 +13,4 @@ general:
 test:
     post:
         - ./prettify_badge.sh
+
