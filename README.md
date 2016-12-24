@@ -3,9 +3,10 @@
 [![Freaking circle](https://circleci.com/gh/cheezgi/es.svg?style=svg)](https://circleci.com/gh/cheezgi/es)
 
 es stands for
-    * **e**asily **s**criptable
-    * **e**vent **s**tuff
-    * [crash**es** valgrind sometim**es**](http://i.imgur.com/rt0c7Ow.png)
+
+* **e**asily **s**criptable
+* **e**vent **s**tuff
+* [crash**es** valgrind sometim**es**](http://i.imgur.com/rt0c7Ow.png)
 
 ## TODO
 
@@ -79,12 +80,13 @@ es stands for
 ## Example global mode: Vim-lite
 
 Keymaps:
-    * `h`: cursor left
-    * `j`: cursor down
-    * `k`: cursor up
-    * `l`: cursor right
-    * `i`: enter insert
-    * `Esc`: leave insert
+
+* `h`: cursor left
+* `j`: cursor down
+* `k`: cursor up
+* `l`: cursor right
+* `i`: enter insert
+* `Esc`: leave insert
 
 How this might translate to Lua API
 
