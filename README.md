@@ -7,7 +7,9 @@ es stands for
 
 ## TODO
 
-Everything.
+* Implement basic editing functions: see #3 below
+* Expose those functions to Lua API
+* Create default Lua mode stuff
 
 ## Roadmap
 
@@ -62,6 +64,7 @@ Everything.
     * Change file/buffer/window metadata used for modes
     * Commands for interoperability between modes
         * Some sort of binding to enter a command
+    * Clipboard operation
 4. Scripting - where this all is implemented
     * Modes are sent keystrokes/events
 5. Help/debugging system
