@@ -3,6 +3,7 @@
 es stands for
 * **e**asily **s**criptable
 * **e**vent **s**tuff
+* crash**es** valgrind sometim**es**
 
 ## TODO
 
