@@ -1,16 +1,4 @@
 print("test")
--v commenttestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
-jtestaroni
+-v comment
+testaroni
 j

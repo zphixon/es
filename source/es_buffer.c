@@ -116,6 +116,13 @@ void es_buffer_text_append(es_editor *es, char *line) {
     es->buffers[es->buffer_current].lines[l] = line;
 }
 
+void es_buffer_line_append(es_editor *es, char *line) {
+    char *nl = calloc(2, 1);
+    strcpy(nl, "\n");
+    es_buffer_char_append(es, nl);
+    es_buffer_text_append(es, line);
+}
+
 void es_buffer_line_set(es_editor *es, char *line, uint64_t which) {
     es->buffers[es->buffer_current].lines[which] = line;
 }
@@ -128,7 +135,6 @@ void es_buffer_char_append(es_editor *es, char *c) {
         es_buffer_text_append(es, c);
         return;
     }
-
 
     char *nl = calloc(lastci + 2, 1);
 

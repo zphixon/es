@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 
     char *nl = calloc(11, 1);
     strcpy(nl, "testaroni\n");
-    es_buffer_text_append(es, nl);
+    es_buffer_line_append(es, nl);
 
     char *nl1 = calloc(2, 1);
     strcpy(nl1, "j");

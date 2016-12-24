@@ -50,6 +50,7 @@ void es_buffer_real_set(es_editor *es, bool real);
 void es_buffer_file_save(es_editor *es);
 int es_buffer_file_open(es_editor *es);
 void es_buffer_text_append(es_editor *es, char *line);
+void es_buffer_line_append(es_editor *es, char *line);
 void es_buffer_lines_set(es_editor *es, char **lines);
 void es_buffer_line_set(es_editor *es, char *line, uint64_t which);
 char **es_buffer_tokenize(const char *str);
