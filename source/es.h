@@ -54,6 +54,8 @@ void es_buffer_lines_set(es_editor *es, char **lines);
 void es_buffer_line_set(es_editor *es, char *line, uint64_t which);
 char **es_buffer_tokenize(const char *str);
 es_buffer es_buffer_current(es_editor *es);
+void es_buffer_char_append(es_editor *es, char *c);
+void es_buffer_char_set(es_editor *es, char c, uint64_t which);
 
 // es_cursor
 void es_cursor_setup(es_editor *es);

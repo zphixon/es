@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
 
     if (es_buffer_current(es).real) {
         if (es_buffer_file_open(es)) {
-            printf("%s\n", es_buffer_current(es).filename);
             perror("couldn't open file");
             exit(1);
         }
@@ -47,12 +46,19 @@ int main(int argc, char **argv) {
     strcpy(nl, "testaroni\n");
     es_buffer_line_append(es, nl);
 
+    char *nl1 = calloc(2, 1);
+    strcpy(nl1, "j");
+    es_buffer_char_append(es, nl1);
+
     es_buffer_file_save(es);
 
     // do stuff with es
 
     // clean up es stuff
     es_editor_free(es);
+
+    free(nl1);
+    free(nl);
     return 0;
 }
 
