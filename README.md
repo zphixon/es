@@ -3,7 +3,7 @@
 es stands for
 * **e**asily **s**criptable
 * **e**vent **s**tuff
-* [crash**es** valgrind sometim**es**](https://www.reddit.com/r/ProgrammerHumor/comments/5jsiug/well_fuck/)
+* [crash**es** valgrind sometim**es**](http://i.imgur.com/rt0c7Ow.png)
 
 ## TODO
 
