@@ -4,6 +4,3 @@ testaroni
 testaroni
 testaroni
 testaroni
-testaroni
-testaroni
-testaroni

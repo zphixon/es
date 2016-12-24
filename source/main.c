@@ -27,6 +27,7 @@ int main(int argc, char **argv) {
     }
 
     if (argv[1] != NULL) {
+        filename = realloc(filename, sizeof(char) * (strlen(argv[1]) + 1));
         strcpy(filename, argv[1]);
         es_buffer_filename_set(es, filename);
         es_buffer_set_real(es, true);
@@ -37,6 +38,7 @@ int main(int argc, char **argv) {
 
     if (es_buffer_current(es).real) {
         if (es_buffer_open_file(es)) {
+            printf("%s\n", es_buffer_current(es).filename);
             perror("couldn't open file");
             exit(1);
         }
