@@ -56,20 +56,20 @@ es stands for
         * vim movement
         * `:` commands mapped to es event triggers?
 3. Functions that mutate states - exposed to Lua API
-    * Cursor movement
-    * [X] Appending lines
-    * [X] Appending characters
-    * [ ] Insertion/deletion of characters
-    * [ ] Movement of characters
-    * [ ] Save/open/close files
-    * [ ] Open/close/hide/show buffers
-    * [ ] Open/close/move windows
-    * [ ] Close editor
-    * [ ] Change global/macro/micro modes
-    * [ ] Change file/buffer/window metadata used for modes
-    * [ ] Commands for interoperability between modes
-        * Some sort of binding to enter a command
-    * [ ] Clipboard operation
+    - [ ] Cursor movement
+    - [X] Appending lines
+    - [X] Appending characters
+    - [ ] Insertion/deletion of characters
+    - [ ] Movement of characters
+    - [ ] Save/open/close files
+    - [ ] Open/close/hide/show buffers
+    - [ ] Open/close/move windows
+    - [ ] Close editor
+    - [ ] Change global/macro/micro modes
+    - [ ] Change file/buffer/window metadata used for modes
+    - [ ] Commands for interoperability between modes
+        - Some sort of binding to enter a command
+    - [ ] Clipboard operation
 4. Scripting - where this all is implemented
     * Modes are sent keystrokes/events
 5. Help/debugging system
