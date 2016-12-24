@@ -138,15 +138,19 @@ void es_buffer_char_append(es_editor *es, char *c) {
     nl[lastci + 1] = '\0';
 
     es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = nl;
+}
 
-    //strcpy(es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last], nl);
-
-    //free(nl);
-
-    //es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last]
-        //= realloc(es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last], lastci + 2);
-
-    //strcat(es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last], c);
+void es_buffer_char_set(es_editor *es, char c, uint64_t which) {
+    uint64_t current = 0;
+    for (uint64_t i = 0; i < es_buffer_current(es).lines_last; i++) {
+        for (uint64_t j = 0; es_buffer_current(es).lines[i][j] != '\0'; j++) {
+            if (current == which) {
+                es->buffers[es->buffer_current].lines[i][j] = c;
+                return;
+            }
+            current++;
+        }
+    }
 }
 
 es_buffer es_buffer_current(es_editor *es) {

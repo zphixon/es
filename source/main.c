@@ -50,6 +50,8 @@ int main(int argc, char **argv) {
     strcpy(nl1, "j");
     es_buffer_char_append(es, nl1);
 
+    es_buffer_char_set(es, 'v', 15);
+
     es_buffer_file_save(es);
 
     // do stuff with es
