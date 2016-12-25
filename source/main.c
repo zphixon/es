@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
     es_editor_free(es);
 
     free(nl1);
-    free(nl);
-    free(nl2);
+    //free(nl);
+    //free(nl2);
     return 0;
 }
 

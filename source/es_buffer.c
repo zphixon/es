@@ -81,13 +81,13 @@ int es_buffer_file_open(es_editor *es) {
     fclose(fp);
 
     char **lines = es_buffer_tokenize(buffer);
-    if (*lines != NULL) {
+    if (lines[0] != NULL) {
         char *nl = calloc(strlen(lines[0]) + 2, 1);
         strncpy(nl, lines[0], strlen(lines[0]));
         nl[strlen(lines[0])] = '\n';
         nl[strlen(lines[0]) + 1] = '\0';
         es_buffer_line_set(es, nl, 0);
-        free(*lines);
+        free(lines[0]);
     }
     for (size_t i = 1; lines[i] != NULL; i++) {
         if (lines[i + 1] != NULL) {
@@ -97,7 +97,9 @@ int es_buffer_file_open(es_editor *es) {
             nl[strlen(lines[i]) + 1] = '\0';
             es_buffer_text_append(es, nl);
         } else {
-            es_buffer_text_append(es, strdup(lines[i]));
+            char *nl = calloc(strlen(lines[i]) + 1, 1);
+            strcpy(nl, lines[i]);
+            es_buffer_text_append(es, nl);
         }
         free(lines[i]);
     }
@@ -107,32 +109,45 @@ int es_buffer_file_open(es_editor *es) {
     return 0;
 }
 
+// text_append -> last line has newline at end? : yes -> line_append -\
+//                 : no -> append text ----------------------------------> done
 void es_buffer_text_append(es_editor *es, char *line) {
+    size_t lastci = strlen(es_buffer_current(es).lines[es_buffer_current(es).lines_last]);
+    if (es_buffer_current(es).lines[es_buffer_current(es).lines_last][lastci] == '\n') {
+        es_buffer_line_append(es, line);
+        return;
+    }
+    char *tmp = realloc(es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last],
+                  lastci + strlen(line) + 1);
+    if (tmp)
+        es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = tmp;
+    strcat(es_buffer_current(es).lines[es_buffer_current(es).lines_last], line);
+    free(line);
+}
+
+// line_append -> last line doesn't have newline? : yes -> char_append newline -\
+//                 : no -> add new line <---------------------------------------/
+//                               \----------> done
+void es_buffer_line_append(es_editor *es, char *line) {
+    size_t lastci = strlen(es_buffer_current(es).lines[es_buffer_current(es).lines_last]);
+    if (es_buffer_current(es).lines[es_buffer_current(es).lines_last][lastci] != '\n') {
+        es_buffer_char_append(es, "\n");
+    }
+    es->buffers[es->buffer_current].lines_last++;
     es->buffers[es->buffer_current].lines
         = realloc(es->buffers[es->buffer_current].lines,
-                  sizeof(char*) * (es->buffers[es->buffer_current].lines_last + 2));
-    es->buffers[es->buffer_current].lines_last++;
-    uint64_t l = es->buffers[es->buffer_current].lines_last;
-    es->buffers[es->buffer_current].lines[l] = line;
+                  sizeof(char*) * (es_buffer_current(es).lines_last + 1));
+    es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = line;
 }
 
-void es_buffer_line_append(es_editor *es, char *line) {
-    char *nl = calloc(2, 1);
-    strcpy(nl, "\n");
-    es_buffer_char_append(es, nl);
-    es_buffer_text_append(es, line);
-}
-
-void es_buffer_line_set(es_editor *es, char *line, uint64_t which) {
-    es->buffers[es->buffer_current].lines[which] = line;
-}
-
+// char_append -> last line has newline? : yes -> line_append -\
+//                 : no -> add char to end of line ----------------> done
 void es_buffer_char_append(es_editor *es, char *c) {
     // crikey
     size_t lastci = strlen(es_buffer_current(es).lines[es_buffer_current(es).lines_last]);
     if (es_buffer_current(es).lines[es_buffer_current(es).lines_last][lastci] == '\n')
     {
-        es_buffer_text_append(es, c);
+        es_buffer_line_append(es, c);
         return;
     }
 
@@ -144,6 +159,10 @@ void es_buffer_char_append(es_editor *es, char *c) {
     nl[lastci + 1] = '\0';
 
     es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last] = nl;
+}
+
+void es_buffer_line_set(es_editor *es, char *line, uint64_t which) {
+    es->buffers[es->buffer_current].lines[which] = line;
 }
 
 void es_buffer_char_set(es_editor *es, char c, uint64_t which) {
