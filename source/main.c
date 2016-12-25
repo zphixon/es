@@ -43,8 +43,12 @@ int main(int argc, char **argv) {
     }
 
     char *nl = calloc(11, 1);
-    strcpy(nl, "testaroni\n");
+    strcpy(nl, "testaroni");
     es_buffer_line_append(es, nl);
+
+    char *nl2 = calloc(4, 1);
+    strcpy(nl2, "pbn");
+    es_buffer_text_append(es, nl2);
 
     char *nl1 = calloc(2, 1);
     strcpy(nl1, "j");
@@ -61,6 +65,7 @@ int main(int argc, char **argv) {
 
     free(nl1);
     free(nl);
+    free(nl2);
     return 0;
 }
 
