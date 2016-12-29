@@ -118,6 +118,7 @@ void es_buffer_text_append(es_editor *es, char *line) {
         es_buffer_line_append(es, line);
         return;
     }
+    // memory leak here
     char *tmp = realloc(es->buffers[es->buffer_current].lines[es_buffer_current(es).lines_last],
                   lastci + strlen(line) + 1);
     if (tmp)
