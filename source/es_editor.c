@@ -1,6 +1,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#define ES_DEBUG
 #include "es.h"
 
 void es_editor_setup(es_editor *es) {

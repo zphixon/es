@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#define ES_DEBUG
 #include "es.h"
 
 void es_buffer_setup(es_editor *es) {

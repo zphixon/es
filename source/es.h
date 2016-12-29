@@ -39,6 +39,13 @@ typedef struct {
 #else
 #endif
 
+#ifdef ES_DEBUG
+#define malloc(x) es_debug_wrap_malloc(x, __FILE__, __LINE__)
+#define calloc(x, y) es_debug_wrap_calloc(x, y, __FILE__, __LINE__)
+#define realloc(x, y) es_debug_wrap_realloc(x, y, __FILE__, __LINE__)
+#define free(x) es_debug_wrap_free(x, __FILE__, __LINE__)
+#endif
+
 // es_editor
 void es_editor_setup(es_editor *es);
 void es_editor_free(es_editor *es);
@@ -64,4 +71,10 @@ void es_cursor_up(es_editor *es);
 void es_cursor_down(es_editor *es);
 void es_cursor_left(es_editor *es);
 void es_cursor_right(es_editor *es);
+
+// es_debug
+void *es_debug_wrap_malloc(size_t c, char *file, int lnum);
+void *es_debug_wrap_calloc(size_t c, size_t s, char *file, int lnum);
+void *es_debug_wrap_realloc(void *c, size_t s, char *file, int lnum);
+void es_debug_wrap_free(void* s, char *file, int lnum);
 
