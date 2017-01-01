@@ -1,0 +1,4 @@
+(define (display args)
+  (println args))
+
+(display "Hello, world!")
