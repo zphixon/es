@@ -5,14 +5,12 @@
 es stands for
 
 * **e**asily **s**criptable
-* **e**vent **s**tuff
-* [crash**es** valgrind sometim**es**](http://i.imgur.com/rt0c7Ow.png)
 
 ## TODO
 
 * Implement basic editing functions: see #3 below
-* Expose those functions to Lua API
-* Create default Lua mode stuff
+* Expose those functions to Ketos API
+* Create default Ketos mode stuff
 
 ## Roadmap
 
@@ -57,8 +55,8 @@ es stands for
         * `:` commands mapped to es event triggers?
 3. Functions that mutate states - exposed to Lua API
     - [ ] Cursor movement
-    - [X] Appending lines
-    - [X] Appending characters
+    - [ ] Appending lines
+    - [ ] Appending characters
     - [ ] Insertion/deletion of characters
     - [ ] Movement of characters
     - [ ] Save/open/close files
@@ -78,6 +76,13 @@ es stands for
     * Show registered mappings
         * Registered list required
         * Modes can add maps up the chain
+
+# Everything below this section is outdated!
+`es` is moving away from C due to pains with ~~me being a shitty C
+programmer~~ memory management. As such, I am also changing the language in
+which `es` is scripted. `es` will now be using a Lisp dialect called Ketos
+which is very similar to Scheme. Hopefully things will go a little better
+this time...
 
 ## Example global mode: Vim-lite
 
