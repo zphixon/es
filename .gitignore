@@ -1,8 +1,1 @@
-build/
-.sconsign.dblite
-*.o
-*.exe
-*.pyc
-scons/
-otest.lua
-
+target/
