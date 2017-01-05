@@ -5,4 +5,6 @@ authors = ["cheezgi <zackh@firemail.cc>"]
 
 [dependencies]
 ketos = "*"
+pancurses = "*"
+ropey = "*"
 
