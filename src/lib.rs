@@ -2,12 +2,29 @@ use std::path::Path;
 use std::fs::File;
 use std::io::Read;
 use std::error::Error;
+use std::io::Write;
+
+pub struct EsCursor {
+    pub x: usize,
+    pub y: usize,
+}
+
+pub struct EsEditor {
+    pub buffers: Vec<EsBuffer>,
+    pub current_buffer: usize,
+}
 
 pub struct EsBuffer {
-    pub filename: String,    // holy moly that's awful
-    pub lines: Vec<String>,  // like really really gross
+    pub filename: String,
+    pub lines: Vec<String>,
     pub length: usize,
     pub pos: usize,
+    pub saved: bool,
+}
+
+#[derive(Debug)]
+pub enum EsError {
+    WrapperErrorBecauseImTooLazy,
 }
 
 impl EsBuffer {
@@ -40,17 +57,34 @@ impl EsBuffer {
             filename: filename.clone(),
             lines: lines,
             length: s.len(),
-            pos: 0
+            pos: 0,
+            saved: true,
         };
+    }
+
+    pub fn save(&self) -> Result<(), EsError> {
+        let mut file = match File::create(&self.filename) {
+            Ok(f) => f,
+            Err(_) => {
+                return Err(EsError::WrapperErrorBecauseImTooLazy);
+            }
+        };
+        for line in &self.lines {
+            match file.write_all(line.as_bytes()) {
+                Ok(_) => continue,
+                Err(_) => {
+                    return Err(EsError::WrapperErrorBecauseImTooLazy);
+                }
+            }
+        }
+        Ok(())
     }
 
     pub fn append_line(&mut self, line: String) {
         self.lines.push(line);
+        self.saved = false;
     }
 
-    // FIXME holy fuck this is awful
-    // also why would somthing borrow itself? that makes no sense
-    // I would assume it would have ownership of itself
     pub fn append_text(&mut self, text: &str) {
         let mut tmp = String::new();
         for b in self.lines[&self.lines.len() - 1].clone().bytes() {
@@ -62,6 +96,7 @@ impl EsBuffer {
         }
         let len = self.lines.len();
         self.lines[len - 1] = tmp + text;
+        self.saved = false;
     }
 }
 
