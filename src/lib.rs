@@ -20,6 +20,7 @@ pub struct EsBuffer {
     pub length: usize,
     pub pos: usize,
     pub saved: bool,
+    pub cursor: EsCursor,
 }
 
 #[derive(Debug)]
@@ -27,7 +28,18 @@ pub enum EsError {
     WrapperErrorBecauseImTooLazy,
 }
 
+impl EsEditor {
+    pub fn new(filename: String) -> EsEditor {
+        EsEditor {
+            buffers: vec![EsBuffer::from_filename(&filename)],
+            current_buffer: 0,
+        }
+    }
+}
+
 impl EsBuffer {
+    #[allow(unknown_lints)]
+    #[allow(ptr_arg)]
     pub fn from_filename(filename: &String) -> EsBuffer {
         let path = Path::new(filename);
 
@@ -48,21 +60,23 @@ impl EsBuffer {
         }
 
         let mut lines: Vec<String> = vec![];
+        #[allow(single_char_pattern)]
         for line in s.split("\n") {
             lines.push(String::from(line) + "\n");
         }
         lines.pop();
 
-        return EsBuffer {
+        EsBuffer {
             filename: filename.clone(),
             lines: lines,
             length: s.len(),
             pos: 0,
             saved: true,
-        };
+            cursor: EsCursor { x: 0, y: 0 },
+        }
     }
 
-    pub fn save(&self) -> Result<(), EsError> {
+    pub fn save(&mut self) -> Result<(), EsError> {
         let mut file = match File::create(&self.filename) {
             Ok(f) => f,
             Err(_) => {
@@ -77,6 +91,7 @@ impl EsBuffer {
                 }
             }
         }
+        self.saved = true;
         Ok(())
     }
 
@@ -86,17 +101,31 @@ impl EsBuffer {
     }
 
     pub fn append_text(&mut self, text: &str) {
-        let mut tmp = String::new();
-        for b in self.lines[&self.lines.len() - 1].clone().bytes() {
-            if b == '\n' as u8 {
-                self.append_line(String::from(text));
-                return;
-            }
-            tmp.push(b as char);
+        if self.lines[self.lines.len() - 1].as_bytes()[self.lines[self.lines.len() - 1].len() - 1] == b'\n' {
+            self.append_line(String::from(text));
         }
+
+        let tmp = self.lines[self.lines.len() - 1].clone();
         let len = self.lines.len();
         self.lines[len - 1] = tmp + text;
         self.saved = false;
+    }
+
+    pub fn pos_to_xy(&self, pos: usize) -> (i32, i32) {
+        let mut x = 0;
+        let mut y = 0;
+        let mut pc = 0;
+        for line in &self.lines {
+            for _ in line.bytes() {
+                if pc == pos {
+                    return (x, y);
+                }
+                pc += 1;
+                x += 1;
+            }
+            y += 1;
+        }
+        (-1, -1)
     }
 }
 
