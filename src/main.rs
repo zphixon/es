@@ -15,7 +15,7 @@ fn main() {
         }
     }
 
-    let mut es_buffer = EsBuffer::from_filename(&String::from("src/test.ket"));
+    let mut es_buffer = EsBuffer::from_filename("src/test.ket");
     es_buffer.append_line("; test".into());
     es_buffer.append_text("arino\n");
 

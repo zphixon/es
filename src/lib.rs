@@ -9,13 +9,13 @@ pub struct EsCursor {
     pub y: usize,
 }
 
-pub struct EsEditor {
-    pub buffers: Vec<EsBuffer>,
+pub struct EsEditor<'a> {
+    pub buffers: Vec<EsBuffer<'a>>,
     pub current_buffer: usize,
 }
 
-pub struct EsBuffer {
-    pub filename: String,
+pub struct EsBuffer<'a> {
+    pub filename: &'a str,
     pub lines: Vec<String>,
     pub length: usize,
     pub pos: usize,
@@ -28,17 +28,17 @@ pub enum EsError {
     WrapperErrorBecauseImTooLazy,
 }
 
-impl EsEditor {
-    pub fn new(filename: String) -> EsEditor {
+impl<'a> EsEditor<'a> {
+    pub fn new(filename: &'a str) -> EsEditor {
         EsEditor {
-            buffers: vec![EsBuffer::from_filename(&filename)],
+            buffers: vec![EsBuffer::from_filename(filename)],
             current_buffer: 0,
         }
     }
 }
 
-impl EsBuffer {
-    pub fn from_filename(filename: &str) -> EsBuffer {
+impl<'a> EsBuffer<'a> {
+    pub fn from_filename(filename: &'a str) -> EsBuffer {
         let path = Path::new(filename);
 
         let mut file = match File::open(&path) {
@@ -64,7 +64,7 @@ impl EsBuffer {
         lines.pop();
 
         EsBuffer {
-            filename: String::from(filename),
+            filename: filename,
             lines: lines,
             length: s.len(),
             pos: 0,
