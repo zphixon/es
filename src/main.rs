@@ -11,12 +11,12 @@ fn main() {
     match interp.run_file(std::path::Path::new("src/test.ket")) {
         Ok(_) => {},
         Err(e) => {
-            println!("{}", e);
+            println!("oh noes error {}", e);
         }
     }
 
     let mut es_buffer = EsBuffer::from_filename(&String::from("src/test.ket"));
-    es_buffer.append_line("test".into());
+    es_buffer.append_line("; test".into());
     es_buffer.append_text("arino\n");
 
     for line in &es_buffer.lines {
@@ -29,5 +29,8 @@ fn main() {
             println!("Didn't work: {:?}", e);
         }
     }
+
+    let (x, y) = es_buffer.pos_to_xy(77);
+    println!("{}, {}", x, y);
 }
 

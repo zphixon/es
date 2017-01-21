@@ -38,9 +38,7 @@ impl EsEditor {
 }
 
 impl EsBuffer {
-    #[allow(unknown_lints)]
-    #[allow(ptr_arg)]
-    pub fn from_filename(filename: &String) -> EsBuffer {
+    pub fn from_filename(filename: &str) -> EsBuffer {
         let path = Path::new(filename);
 
         let mut file = match File::open(&path) {
@@ -60,14 +58,13 @@ impl EsBuffer {
         }
 
         let mut lines: Vec<String> = vec![];
-        #[allow(single_char_pattern)]
-        for line in s.split("\n") {
+        for line in s.split('\n') {
             lines.push(String::from(line) + "\n");
         }
         lines.pop();
 
         EsBuffer {
-            filename: filename.clone(),
+            filename: String::from(filename),
             lines: lines,
             length: s.len(),
             pos: 0,
@@ -83,6 +80,7 @@ impl EsBuffer {
                 return Err(EsError::WrapperErrorBecauseImTooLazy);
             }
         };
+
         for line in &self.lines {
             match file.write_all(line.as_bytes()) {
                 Ok(_) => continue,
@@ -91,18 +89,19 @@ impl EsBuffer {
                 }
             }
         }
+
         self.saved = true;
         Ok(())
     }
 
-    pub fn append_line(&mut self, line: String) {
-        self.lines.push(line);
+    pub fn append_line(&mut self, line: &str) {
+        self.lines.push(String::from(line));
         self.saved = false;
     }
 
     pub fn append_text(&mut self, text: &str) {
-        if self.lines[self.lines.len() - 1].as_bytes()[self.lines[self.lines.len() - 1].len() - 1] == b'\n' {
-            self.append_line(String::from(text));
+        if self.lines[self.lines.len() - 1].ends_with('\n') {
+            self.append_line(text);
         }
 
         let tmp = self.lines[self.lines.len() - 1].clone();
@@ -114,15 +113,16 @@ impl EsBuffer {
     pub fn pos_to_xy(&self, pos: usize) -> (i32, i32) {
         let mut x = 0;
         let mut y = 0;
-        let mut pc = 0;
+        let mut bc = 0;
         for line in &self.lines {
-            for _ in line.bytes() {
-                if pc == pos {
+            for _ in 0..(line.bytes().len() - 1) {
+                if bc == pos {
                     return (x, y);
                 }
-                pc += 1;
+                bc += 1;
                 x += 1;
             }
+            x = 0;
             y += 1;
         }
         (-1, -1)
