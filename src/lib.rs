@@ -25,7 +25,7 @@ pub struct EsBuffer<'a> {
 
 #[derive(Debug)]
 pub enum EsError {
-    WrapperErrorBecauseImTooLazy,
+    FileError,
 }
 
 impl<'a> EsEditor<'a> {
@@ -77,7 +77,7 @@ impl<'a> EsBuffer<'a> {
         let mut file = match File::create(&self.filename) {
             Ok(f) => f,
             Err(_) => {
-                return Err(EsError::WrapperErrorBecauseImTooLazy);
+                return Err(EsError::FileError);
             }
         };
 
@@ -85,7 +85,7 @@ impl<'a> EsBuffer<'a> {
             match file.write_all(line.as_bytes()) {
                 Ok(_) => continue,
                 Err(_) => {
-                    return Err(EsError::WrapperErrorBecauseImTooLazy);
+                    return Err(EsError::FileError);
                 }
             }
         }
