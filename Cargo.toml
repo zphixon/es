@@ -7,4 +7,6 @@ authors = ["cheezgi <zackh@firemail.cc>"]
 ketos = "*"
 pancurses = "*"
 xi-rope = "*"
+argparse = "*"
+binary-tree = "*"
 

@@ -1,12 +1,25 @@
 extern crate ketos;
 extern crate pancurses;
-
-extern crate es;
+extern crate argparse;
 
 use pancurses::*;
-use es::EsBuffer;
+use argparse::*;
+
+extern crate es;
+use es::*;
 
 fn main() {
+    let mut filename: String = "".into();
+
+    {
+        let mut args = ArgumentParser::new();
+        args.set_description("Edit a file with es");
+        args.refer(&mut filename)
+            .add_argument("file", Store, "File to edit");
+        // more state later
+        args.parse_args_or_exit();
+    }
+
     let interp = ketos::Interpreter::new();
     match interp.run_file(std::path::Path::new("src/test.ket")) {
         Ok(_) => {},
@@ -15,22 +28,11 @@ fn main() {
         }
     }
 
-    let mut es_buffer = EsBuffer::from_filename("src/test.ket");
-    es_buffer.append_line("; test".into());
-    es_buffer.append_text("arino\n");
+    let mut es = EsEditor::new();
 
-    for line in &es_buffer.lines {
-        print!("{}", line);
-    }
-
-    match es_buffer.save() {
-        Ok(_) => {},
-        Err(e) => {
-            println!("Didn't work: {:?}", e);
-        }
-    }
-
-    let (x, y) = es_buffer.pos_to_xy(77);
-    println!("{}, {}", x, y);
+    //if filename.len() == 0 {
+    //    es.
+    //}
+    println!("{:?}", es);
 }
 
