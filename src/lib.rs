@@ -2,16 +2,15 @@
 extern crate binary_tree;
 extern crate xi_rope;
 
-use xi_rope::Rope;
-use binary_tree::count;
-
 mod cursor;
 mod buffer;
 mod editor;
+mod layout;
 
 pub use cursor::*;
 pub use buffer::*;
 pub use editor::*;
+pub use layout::*;
 
 #[derive(Debug)]
 pub enum EsError {

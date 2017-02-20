@@ -33,6 +33,7 @@ fn main() {
     //if filename.len() == 0 {
     //    es.
     //}
+    es.vertical_split();
     println!("{:?}", es);
 }
 
