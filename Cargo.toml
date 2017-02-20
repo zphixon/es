@@ -8,5 +8,4 @@ ketos = "*"
 pancurses = "*"
 xi-rope = "*"
 argparse = "*"
-binary-tree = "*"
 

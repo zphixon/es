@@ -1,5 +1,4 @@
 
-extern crate binary_tree;
 extern crate xi_rope;
 
 mod cursor;
@@ -13,7 +12,7 @@ pub use editor::*;
 pub use layout::*;
 
 #[derive(Debug)]
-pub enum EsError {
+pub enum Error {
     FileError,
 }
 

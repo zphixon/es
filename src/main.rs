@@ -28,12 +28,10 @@ fn main() {
         }
     }
 
-    let mut es = EsEditor::new();
+    let mut es = Editor::new();
 
-    //if filename.len() == 0 {
-    //    es.
-    //}
     es.vertical_split();
+    es.horizontal_split();
     println!("{:?}", es);
 }
 

@@ -19,7 +19,8 @@ use buffer::*;
 
 #[derive(Debug)]
 pub enum LayoutNode {
-    Buf(EsBuffer),
+    Empty,
+    Buf(Buffer),
     Split(Box<Split>),
 }
 
@@ -30,11 +31,12 @@ pub enum Split {
 }
 
 impl LayoutNode {
-    //pub fn vertical_split(layout: LayoutNode) -> LayoutNode {
-    //    LayoutNode::Split(Box::new(Split::Vertical(layout, LayoutNode::Buf(EsBuffer::empty()))))
-    //}
-    pub fn vertical_split(self) -> LayoutNode {
-        LayoutNode::Split(Box::new(Split::Vertical(self, LayoutNode::Buf(EsBuffer::empty()))))
+    pub fn vertical_split(node: LayoutNode) -> LayoutNode {
+        LayoutNode::Split(Box::new(Split::Vertical(node, LayoutNode::Buf(Buffer::empty()))))
+    }
+
+    pub fn horizontal_split(node: LayoutNode) -> LayoutNode {
+        LayoutNode::Split(Box::new(Split::Horizontal(node, LayoutNode::Buf(Buffer::empty()))))
     }
 }
 
