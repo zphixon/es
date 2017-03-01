@@ -36,8 +36,8 @@ impl Editor {
         self.current_buffer_mut().move_to(x, y);
     }
 
-    pub fn current_line(&mut self) -> &str {
-        self.current_buffer_mut().current_line()
+    pub fn current_line(&self) -> &str {
+       self.current_buffer().current_line()
     }
 
     //pub fn vertical_split(&mut self) {
