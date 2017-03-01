@@ -9,18 +9,18 @@ use buffer::*;
 //
 // is something like this
 //
-//      h
-//     / \
-//    v   b
-//   / \
-//  b   h
-//     / \
-//    b   b
+//      h               *
+//     / \             / \
+//    v   b           *   1
+//   / \             / \
+//  b   h           2   *
+//     / \             / \
+//    b   b           3   4
 
 #[derive(Debug)]
 pub enum LayoutNode {
     Empty,
-    Buf(Buffer),
+    Buf(i64),
     Split(Box<Split>),
 }
 
@@ -31,12 +31,18 @@ pub enum Split {
 }
 
 impl LayoutNode {
-    pub fn vertical_split(node: LayoutNode) -> LayoutNode {
-        LayoutNode::Split(Box::new(Split::Vertical(node, LayoutNode::Buf(Buffer::empty()))))
+    pub fn vertical_split(self) -> LayoutNode {
+        let last = self.last_id();
+        LayoutNode::Split(Box::new(Split::Vertical(self, LayoutNode::Buf(last))))
     }
 
-    pub fn horizontal_split(node: LayoutNode) -> LayoutNode {
-        LayoutNode::Split(Box::new(Split::Horizontal(node, LayoutNode::Buf(Buffer::empty()))))
+    pub fn horizontal_split(self) -> LayoutNode {
+        let last = self.last_id();
+        LayoutNode::Split(Box::new(Split::Horizontal(self, LayoutNode::Buf(last))))
+    }
+
+    pub fn last_id(&self) -> i64 {
+        3
     }
 }
 
