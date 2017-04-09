@@ -1,0 +1,3 @@
+(define (main global)
+  (do
+    (new-mode global "vim-lite" "add vim-style keystrokes")))
