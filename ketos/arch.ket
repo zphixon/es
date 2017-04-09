@@ -1,0 +1,30 @@
+(use car-cdr :all)
+(use map :all)
+(use queue :all)
+
+; lists of Modes
+(define global '())
+(define major '())
+(define minor '())
+
+; mode list:
+; (Mode Mode ...)
+;
+; keys:
+; ((key call) (key call) ...)
+
+(struct Mode ((name string)
+              (desc string)
+              (keys list)))
+
+(define (add-global name desc)
+  (define global (queue-add (new Mode :name name :desc desc :keys '()) global)))
+(define (add-major name desc)
+  (define major (queue-add (new Mode :name name :desc desc :keys '()) major)))
+(define (add-minor name desc)
+  (define minor (queue-add (new Mode :name name :desc desc :keys '()) minor)))
+
+(add-global "default" "default global mode")
+(add-major "default" "default major mode")
+(add-minor "default" "default minor mode")
+

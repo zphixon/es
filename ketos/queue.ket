@@ -1,0 +1,26 @@
+
+(use filter :all)
+
+(define (queue-get name queue)
+  (if (null queue)
+    ()
+    (if (= name (. (first queue) :name))
+      (first queue)
+      (queue-get name (tail queue)))))
+
+(define (queue-insert item queue)
+  (append queue item))
+
+(define (queue-add item queue)
+  (if (null (queue-get (. item :name) queue))
+    (queue-insert item queue)
+    queue))
+
+(define (queue-remove item queue)
+  (filter
+    (lambda (val)
+      (not (= val item)))
+    queue))
+
+(export (queue-get queue-add queue-remove))
+

@@ -1,3 +1,7 @@
+
+extern crate es;
+use es::*;
+
 fn main() {
-    println!("Hello, world!");
+    let interp = Interpreter::new();
 }

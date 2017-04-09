@@ -1,8 +1,6 @@
-# ese editor
+# es editor
 
-**e**asily **s**criptable **e**ditor
-
-Pronounced *easy*
+**e**asily **s**criptable
 
 * ketos: lisp dialect for scripting
 * pancurses: curses for rust
@@ -14,8 +12,6 @@ Pronounced *easy*
 * User plugins to interface with ketos library and events
 
 ```scheme
-(register-callback "startup"
-                   (lambda ()
-                     (display-message "Hello!")))
+; in the works...
 ```
 

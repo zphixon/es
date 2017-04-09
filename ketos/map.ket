@@ -1,0 +1,26 @@
+
+(use filter :all)
+
+(define (map-get key map)
+  (if (null map)
+    ()
+    (if (= key (first (first map)))
+      (second (first map))
+      (map-get key (tail map)))))
+
+(define (map-insert key value map)
+  (append map `(,key ,value)))
+
+(define (map-add key value map)
+  (if (null (map-get key map))
+    (map-insert key value map)
+    map))
+
+(define (map-remove key map)
+  (filter
+    (lambda (pair)
+        (not (= key (first pair))))
+    map))
+
+(export (map-get map-add map-remove))
+

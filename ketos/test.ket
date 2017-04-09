@@ -1,0 +1,127 @@
+
+; random stuff {{{
+
+; eventually turn a rust file struct to ketos file struct
+(struct File ((lines integer)
+              (filename string)
+              (content string)
+              (attrs list)))
+
+(define thing (new File
+                   :lines 3
+                   :filename "test.c"
+                   :content "test\ntest"
+                   :attrs '(("arf" "doggie"))))
+
+(.= thing :attrs
+    (append (. thing :attrs) '("arf" "doggie")))
+
+;; check if map contains key
+(define (pairs-contains key pairs)
+  (if (null pairs)
+    false
+    (if (= key (first (first pairs)))
+      true
+      (pairs-contains key (tail pairs)))))
+
+;; check if attributes has value
+(define (has-attr val stct)
+  (pairs-contains val (. stct :attrs)))
+
+;(if (has-attr "arf" thing)
+;  (println "contains arf") ; prints this
+;  (println "does not contain arf :C"))
+
+; }}}
+
+; make stuff work {{{
+
+; fake functions {{{
+(define (cursor-down n)
+  (println (format "cursor down ~z" n)))
+
+;; eventually print to status bar or splash screen?
+(define (display-message msg)
+  (println msg))
+; }}}
+
+;; mode has lists of callbacks
+(struct Mode ((name string)
+              (enter list)
+              (exit list)
+              (key list)))
+
+(define global-default (new Mode
+                    :name "global-default"
+                    :enter '()
+                    :exit '()
+                    ; TODO: more later
+                    :key '()))
+
+; :key - (("j" (lambda (state) (do something))) (...))
+
+
+(define (global-key-callback mode key callback)
+  (define mode (.= mode :key
+      (append (. mode :key) `(,key ,callback)))))
+
+(define (global-call-key-callback key)
+  (let ((callback (get-key-callback key (. global :key))))
+    (callback "fake state")))
+
+(define (get-key-callback key callbacks)
+  (if (null callbacks)
+    ()
+    (if (= (first (first callbacks)) key)
+      (second (first callbacks))
+      (get-key-callback key (tail callbacks)))))
+
+; TODO: mode struct?
+(define global-modes '((global-default "default ese mode")))
+
+;; call all lambdas in list
+(define (call-all callbacks)
+  (if (null callbacks)
+    ()
+    (do
+      ((first callbacks))
+      (call-all (tail callbacks)))))
+
+; add callbacks and register methods as necessary
+; TODO: figure out if we need a callback struct to define
+;       methods on - reduce ridiculous amount of register functions
+(define startup-callbacks '())
+(define (startup-callback callback)
+  (define startup-callbacks (append startup-callbacks callback)))
+
+;; add callbacks to callback list
+(define (add-callback name body)
+  (case name
+    (("startup") (startup-callback body)) ; add body to list of stuff to do
+    (("test") (println "test"))))
+
+;; register a global mode
+(define (global-mode mode-name)
+  (define mode-name (new Mode :name (string mode-name) :enter '() :exit '() :key '())))
+
+; }}}
+
+; test stuff
+
+;(global-mode
+;  '(vim-lite "emulate a few vim-style keybinds"))
+
+(global-mode "vim-lite")
+
+(global-key-callback vim-lite "j"
+                     (lambda (state)
+                       (cursor-down 1)))
+
+(add-callback "startup"
+                   (lambda ()
+                     (display-message "Hello!")))
+
+(call-all startup-callbacks)
+(global-call-key-callback "j")
+
+

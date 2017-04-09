@@ -1,0 +1,19 @@
+(define (map fn li) (map-into fn li ()))
+
+(define (map-into fn li out)
+  (if (null li)
+    out
+    (map-into fn (tail li) (append out (fn (first li))))))
+
+(define (filter fn li) (filter-into fn li ()))
+
+(define (filter-into fn li out)
+  (if (null li)
+    out
+    (filter-into fn (tail li)
+                 (if (fn (first li))
+                   (append out (first li))
+                   out))))
+
+(export (filter map))
+
