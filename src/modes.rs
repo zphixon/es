@@ -1,6 +1,5 @@
 
 use ketos::{ForeignValue, Error, Value, ExecError, Interpreter};
-use ketos::function::Lambda;
 
 use keys::Key;
 
@@ -22,11 +21,11 @@ impl Mode {
         }
     }
 
-    pub fn add_key(&mut self, test: String, call: Lambda) {
+    pub fn add_key(&mut self, test: String, call: Value) {
         self.keys.push(Key::new(test, call));
     }
 
-    pub fn get_callback(&self, key: String) -> Option<Lambda> {
+    pub fn get_callback(&self, key: String) -> Option<Value> {
         for k in self.keys.iter() {
             if k.key == key {
                 return Some(k.callback.clone());
@@ -63,12 +62,12 @@ impl ModeList {
 
     pub fn add_key(&self, name: String, key: String, call: &Value) -> Result<(), Error> {
         match *call {
-            Value::Lambda(ref l) => {
+            Value::Lambda(_) => {
                 let mut borrowed = self.inner.borrow_mut();
                 let modes = borrowed.iter_mut();
                 for m in modes {
                     if m.name == name {
-                        (*m).add_key(key.clone(), l.clone());
+                        (*m).add_key(key.clone(), call.clone());
                         break;
                     }
                 }
@@ -85,7 +84,8 @@ impl ModeList {
             if mode.name == mode_name {
                 for key in mode.keys {
                     if key.key == key_pressed {
-                        interp.execute_code(key.callback.code).unwrap(); // TODO: error handle
+                        // TODO: pass context
+                        interp.call_value(key.callback, Vec::new()).unwrap(); // TODO: error handle
                     }
                 }
             }

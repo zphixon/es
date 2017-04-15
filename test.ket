@@ -4,5 +4,5 @@
     (new-mode major "default" "default major mode")
     (new-mode global "default" "default global mode")
     (add-key global "default" "j" (lambda ()
-                                    (println "ojiefwoijfweoi")))
+                                    (down-line 3)))
     ))

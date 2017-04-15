@@ -27,6 +27,11 @@ fn main() {
         fn add_key(list: &ModeList, name: &str, key: &str, call: &Value) -> ()
     }
 
+    ketos_fn! {
+        interp.scope() => "down-line" =>
+        fn down_line(num: u32) -> ()
+    }
+
     let res = interp.run_file(Path::new("test.ket"));
     match res {
         Ok(_) => {},
@@ -42,7 +47,7 @@ fn main() {
 
     global.call_key_callback(&interp, "default".into(), "j".into()).unwrap();
 
-    global.list();
-    major.list();
-    minor.list();
+    //global.list();
+    //major.list();
+    //minor.list();
 }

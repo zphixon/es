@@ -11,3 +11,8 @@ pub fn add_key(list: &ModeList, name: &str, key: &str, call: &Value) -> Result<(
     list.add_key(name.to_owned(), key.to_owned(), call)
 }
 
+pub fn down_line(num: u32) -> Result<(), Error> {
+    println!("move down {}", num);
+    Ok(())
+}
+
