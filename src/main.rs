@@ -40,6 +40,8 @@ fn main() {
                      Value::Foreign(major.clone()),
                      Value::Foreign(minor.clone())]).unwrap();
 
+    global.call_key_callback(&interp, "default".into(), "j".into()).unwrap();
+
     global.list();
     major.list();
     minor.list();

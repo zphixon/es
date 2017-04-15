@@ -1,7 +1,7 @@
 
 use ketos::function::Lambda;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Key {
     pub key: String,
     pub callback: Lambda,

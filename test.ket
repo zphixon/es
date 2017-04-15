@@ -3,5 +3,6 @@
     (new-mode minor "default" "default minor mode")
     (new-mode major "default" "default major mode")
     (new-mode global "default" "default global mode")
-    (add-key global "default" (lambda () (println "whooo")))
+    (add-key global "default" "j" (lambda ()
+                                    (println "ojiefwoijfweoi")))
     ))
