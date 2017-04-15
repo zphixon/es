@@ -4,27 +4,37 @@ extern crate ketos;
 use ketos::*;
 
 extern crate es;
-use es::modes::{ModeList, Mode};
+use es::modes::{ModeList, new_mode};
 
 use std::rc::Rc;
 use std::path::Path;
 
-fn new_mode(list: &ModeList, name: &str, desc: &str) -> Result<(), Error> {
-    list.add_mode(name.to_owned(), desc.to_owned());
-    Ok(())
-}
-
 fn main() {
+    let global = Rc::new(ModeList::new("global"));
+    let major = Rc::new(ModeList::new("major"));
+    let minor = Rc::new(ModeList::new("minor"));
+
     let interp = Interpreter::new();
-    let globals = Rc::new(ModeList::new());
 
     ketos_fn! {
         interp.scope() => "new-mode" =>
         fn new_mode(list: &ModeList, name: &str, desc: &str) -> ()
     }
 
-    interp.run_file(Path::new("test.ket"));
-    interp.call("main", vec![Value::Foreign(globals.clone())]).unwrap();
+    let res = interp.run_file(Path::new("test.ket"));
+    match res {
+        Ok(_) => {},
+        Err(e) => {
+            println!("{:?}", e);
+        }
+    }
 
-    globals.list();
+    interp.call("es-main",
+                vec![Value::Foreign(global.clone()),
+                     Value::Foreign(major.clone()),
+                     Value::Foreign(minor.clone())]).unwrap();
+
+    global.list();
+    major.list();
+    minor.list();
 }

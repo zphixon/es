@@ -1,9 +1,10 @@
 
-use ketos::ForeignValue;
+use ketos::{ForeignValue, Error};
 
 use keys::Key;
 
 use std::cell::RefCell;
+use std::fmt;
 
 #[derive(Debug)]
 pub struct Mode {
@@ -22,17 +23,17 @@ impl Mode {
     }
 }
 
-//pub type ModeList = Vec<Mode>;
-
 #[derive(Debug)]
 pub struct ModeList {
     inner: RefCell<Vec<Mode>>,
+    kind: String,
 }
 
 impl ModeList {
-    pub fn new() -> Self {
+    pub fn new(kind: &str) -> Self {
         Self {
             inner: RefCell::new(vec![]),
+            kind: kind.to_owned(),
         }
     }
 
@@ -41,7 +42,8 @@ impl ModeList {
     }
 
     pub fn list(&self) {
-        println!("{:?}", self.inner.borrow_mut());
+        println!("{}:", self.kind);
+        println!("    {:?}", self.inner.borrow());
     }
 }
 
@@ -51,5 +53,10 @@ impl ForeignValue for ModeList {
 
 foreign_type_conversions! {
     ModeList => "ModeList"
+}
+
+pub fn new_mode(list: &ModeList, name: &str, desc: &str) -> Result<(), Error> {
+    list.add_mode(name.to_owned(), desc.to_owned());
+    Ok(())
 }
 
