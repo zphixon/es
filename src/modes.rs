@@ -85,7 +85,12 @@ impl ModeList {
                 for key in mode.keys {
                     if key.key == key_pressed {
                         // TODO: pass context
-                        interp.call_value(key.callback, Vec::new()).unwrap(); // TODO: error handle
+                        let r = interp.call_value(key.callback, Vec::new());
+                        if r.is_err() {
+                            return Err(r.unwrap_err());
+                        } else {
+                            return Ok(());
+                        }
                     }
                 }
             }
