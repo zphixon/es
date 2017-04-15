@@ -77,7 +77,7 @@
       (get-key-callback key (tail callbacks)))))
 
 ; TODO: mode struct?
-(define global-modes '((global-default "default ese mode")))
+(define global-modes '((global-default "default es mode")))
 
 ;; call all lambdas in list
 (define (call-all callbacks)
