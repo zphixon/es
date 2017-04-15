@@ -1,5 +1,7 @@
 (define (es-main global major minor)
   (do
-    (new-mode minor "vim-lite" "jowfojoijaw")
-    (new-mode major "vim-lite" "vim-style keystrokes")
-    (new-mode global "vim-lite" "add vim-style keystrokes")))
+    (new-mode minor "default" "default minor mode")
+    (new-mode major "default" "default major mode")
+    (new-mode global "default" "default global mode")
+    (add-key global "default" (lambda () (println "whooo")))
+    ))

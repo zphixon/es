@@ -4,4 +4,5 @@ extern crate ketos;
 
 pub mod modes;
 pub mod keys;
+pub mod exposed;
 

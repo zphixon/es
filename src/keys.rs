@@ -1,7 +1,18 @@
 
+use ketos::function::Lambda;
+
 #[derive(Debug)]
 pub struct Key {
-    key: String,
-    //callback: Fn
+    pub key: String,
+    pub callback: Lambda,
+}
+
+impl Key {
+    pub fn new(key: String, call: Lambda) -> Key {
+        Key {
+            key: key,
+            callback: call,
+        }
+    }
 }
 

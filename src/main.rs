@@ -4,7 +4,8 @@ extern crate ketos;
 use ketos::*;
 
 extern crate es;
-use es::modes::{ModeList, new_mode};
+use es::modes::ModeList;
+use es::exposed::*;
 
 use std::rc::Rc;
 use std::path::Path;
@@ -19,6 +20,11 @@ fn main() {
     ketos_fn! {
         interp.scope() => "new-mode" =>
         fn new_mode(list: &ModeList, name: &str, desc: &str) -> ()
+    }
+
+    ketos_fn! {
+        interp.scope() => "add-key" =>
+        fn add_key(list: &ModeList, name: &str, key: &str, call: &Value) -> ()
     }
 
     let res = interp.run_file(Path::new("test.ket"));
