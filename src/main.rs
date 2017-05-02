@@ -32,7 +32,7 @@ fn main() {
         fn down_line(num: u32) -> ()
     }
 
-    let res = interp.run_file(Path::new("test.ket"));
+    let res = interp.run_file(Path::new("config.ket"));
     match res {
         Ok(_) => {},
         Err(e) => {
